@@ -34,19 +34,23 @@ If your app includes Prisma, make sure to run `npx prisma db push` from the root
 
 ## Authentication
 
-If your app includes NextAuth.js, we get you started with the DiscordProvider. This is one of the simplest providers that NextAuth.js offers, but it still requires a bit of initial setup on your part.
+This app contains Google Authentication. To setup:
 
-Of course, if you prefer to use a different auth provider, you can also use one of the many providers↗ that NextAuth.js offers.
+1. Go to the Google Cloud Console (https://console.cloud.google.com/).
+2. Select "ai-fitness-coach" project
+3. Navigate to the "Credentials" section.
+4. Click on "Create credentials" and choose "OAuth client ID".
+5. Select the application type (Web application, Android, iOS, etc.).
+6. Enter the authorized redirect URIs for your application.
+   a. Locally you can use `http://localhost:3000/api/auth/callback/google`
+   b. For production you will need to add the url of your app to the authorized redirect URIs
+7. After creating the OAuth client ID, you will receive the client ID and client secret.
+8. Paste it in the .env file as:
 
-1. You will need a Discord account, so register one if you haven’t already.
-2. Navigate to https://discord.com/developers/applications↗ and click “New Application” in the top right corner. Give your application a name and agree to the Terms of Service.
-3. Once your application has been created, navigate to “Settings → OAuth2 → General”.
-4. Copy the “Client ID” and add it to your .env as DISCORD_CLIENT_ID.
-5. Click “Reset Secret”, copy the new secret, and add it to your .env as DISCORD_CLIENT_SECRET.
-6. Click “Add Redirect” and type in http://localhost:3000/api/auth/callback/discord.
-   a. For production deployment, follow the previous steps to create another Discord Application, but this time replace http://localhost:3000 with the URL that you are deploying to.
-7. Save Changes.
-8. Set the NEXTAUTH_SECRET in .env. In development any string will work, for production see the note in .env on generating a secure secret.
+```
+GOOGLE_CLIENT_ID="clientId"
+GOOGLE_CLIENT_SECRET="clientSecret"
+```
 
 You should now be able to log in
 
@@ -54,3 +58,7 @@ You should now be able to log in
 
 - If your app includes tRPC, check out src/pages/index.tsx and src/server/api/routers/post.ts to see how tRPC queries work.
 - Have a look around the Create T3 App docs, as well as the docs of the packages that your app includes.
+
+```
+
+```
