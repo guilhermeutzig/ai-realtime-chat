@@ -37,7 +37,7 @@ If your app includes Prisma, make sure to run `npx prisma db push` from the root
 This app contains Google Authentication. To setup:
 
 1. Go to the Google Cloud Console (https://console.cloud.google.com/).
-2. Select "ai-fitness-coach" project
+2. Select "ai-realtime-chat" project
 3. Navigate to the "Credentials" section.
 4. Click on "Create credentials" and choose "OAuth client ID".
 5. Select the application type (Web application, Android, iOS, etc.).
