@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* internal variables */
     --primary-foreground: #f7fafc;
     --secondary-foreground: #a6b1be;
     --background: #0b0a0b;
@@ -14,5 +15,20 @@
     --success: #03740e;
     --danger: #b80000;
     --radius: 8px;
+
+    /* shadcn/iu theme variables */
+    --card-foreground: var(--primary-foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--primary-foreground);
+    --primary-foreground: var(--primary-foreground);
+    --secondary-foreground: var(--primary-foreground);
+    --muted: var(--secondary);
+    --muted-foreground: var(--secondary-foreground);
+    --accent: var(--secondary);
+    --accent-foreground: var(--primary-foreground);
+    --destructive: var(--danger);
+    --destructive-foreground: var(--primary-foreground);
+    --border: var(--secondary);
+    --input: var(--secondary);
   }
 }
