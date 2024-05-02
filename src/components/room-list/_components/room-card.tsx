@@ -22,7 +22,7 @@ const RoomCard = ({
         <div className="text-xs font-medium">Owner: {createdById}</div>
         <div className="text-xs font-medium">{String(createdAt)}</div>
       </div>
-      <div className="line-clamp-2 text-xs text-muted-foreground">
+      <div className="line-clamp-2 text-xs text-secondary-foreground">
         {description}
       </div>
     </button>

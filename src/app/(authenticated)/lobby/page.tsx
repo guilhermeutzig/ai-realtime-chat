@@ -24,7 +24,7 @@ export default async function Home() {
             </CardDescription>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-secondary-foreground">
               Signed in as{" "}
               <span className="font-semibold text-white">
                 {session?.user?.name}
