@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
