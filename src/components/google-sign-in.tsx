@@ -12,7 +12,15 @@ const GoogleSignInButton = ({ signedIn }: Props) => {
     return <Button onClick={() => signOut()}>Sign out</Button>;
   }
 
-  return <Button onClick={() => signIn("google")}>Sign in with Google</Button>;
+  return (
+    <Button
+      className="w-max-content"
+      size={signedIn ? "sm" : "lg"}
+      onClick={() => signIn("google")}
+    >
+      Sign in with Google
+    </Button>
+  );
 };
 
 export default GoogleSignInButton;
