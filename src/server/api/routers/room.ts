@@ -9,6 +9,11 @@ export const roomRouter = createTRPCRouter({
 
   getAllRoomsWithMembersCount: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.db.room.findMany({
+      where: {
+        NOT: {
+          createdById: ctx.session.user.id,
+        },
+      },
       select: {
         id: true,
         name: true,
