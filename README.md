@@ -31,9 +31,8 @@ This project is an AI real-time chat, where users can create accounts, join chat
 4. **Message History**: Provides users with message history by storing chat messages in a Prisma database.
 5. **UI Components**: Utilizes shadcn/ui to build a modern and responsive user interface for the chat application.
 
-### Goal
+### Demo
 
-Have a multiple chat rooms, where users can create their own rooms and invite others to join with some AI interactions.
+You can access the URL below to see this project in action.
 
-- Integrated AI prompts
-- Create bots with different personalities to join the room's conversation
+[Demo](https://ai-realtime-chat-gold.vercel.app/sign-in)
