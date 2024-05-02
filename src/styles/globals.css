@@ -6,12 +6,12 @@
   :root {
     --background: #0b0a0b;
     --foreground: #f7fafc;
-    --card: #0a0a0b;
+    --card: #020817;
     --card-foreground: #f7fafc;
     --popover: #0b0a0b;
     --popover-foreground: #f7fafc;
     --primary: #3b82f6;
-    --primary-foreground: #1d2837;
+    --primary-foreground: #f7fafc;
     --secondary: #2c2f33;
     --secondary-foreground: #f7fafc;
     --muted: #2c2f33;

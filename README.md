@@ -1,9 +1,8 @@
 # AI Real-time Chat
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
-
 ### Stack
 
+- [Bun](https://bun.sh)
 - [Next.js](https://nextjs.org)
 - [Typescript](https://www.typescriptlang.org)
 - [NextAuth.js](https://next-auth.js.org)
@@ -12,6 +11,13 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 - [Tailwind CSS](https://tailwindcss.com)
 - [shadcn/ui](https://ui.shadcn.com)
 - [tRPC](https://trpc.io)
+
+### Installation
+
+1. Install [Bun](https://bun.sh)
+2. You'll need to configure `.env` file based on `.env.example`
+3. Run `bun install`
+4. Run `bun dev` to start the development server
 
 ### What is it
 

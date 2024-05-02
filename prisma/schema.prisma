@@ -26,6 +26,8 @@ model Room {
   createdById    String
   members        User[]           @relation("RoomMembership")
   RoomMembership RoomMembership[]
+  maxMembers     Int
+  description    String
 
   @@index([id])
 }
@@ -67,7 +69,7 @@ model User {
   sessions       Session[]
   rooms          Room[]           @relation("RoomMembership")
   RoomMembership RoomMembership[]
-  Room           Room[]
+  room           Room[]
 }
 
 model VerificationToken {
