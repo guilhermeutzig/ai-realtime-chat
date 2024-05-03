@@ -11,6 +11,7 @@ export const getRooms = async (): Promise<RoomWithMembersCount[]> => {
   const formattedRooms: RoomWithMembersCount[] = rooms.map((room) => ({
     id: room.id,
     name: room.name,
+    createdBy: room.createdBy,
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,
     createdById: room.createdById,

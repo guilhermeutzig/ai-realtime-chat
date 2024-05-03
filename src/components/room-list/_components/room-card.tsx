@@ -1,5 +1,6 @@
 "use client";
 
+import { daysFromNow } from "@/lib/date";
 import { type RoomWithMembersCount } from "@/types";
 
 interface Props extends RoomWithMembersCount {
@@ -8,8 +9,8 @@ interface Props extends RoomWithMembersCount {
 
 const RoomCard = ({
   name,
-  createdById,
   createdAt,
+  createdBy,
   membersCount,
   maxMembers,
   description,
@@ -30,8 +31,10 @@ const RoomCard = ({
             {membersCount}/{maxMembers}
           </div>
         </div>
-        <div className="text-xs font-medium">Owner: {createdById}</div>
-        <div className="text-xs font-medium">{String(createdAt)}</div>
+        <div className="text-xs font-medium">{daysFromNow(createdAt)}</div>
+        <div className="text-xs font-medium">
+          {isOwner ? "You" : createdBy?.name}
+        </div>
       </div>
       <div className="line-clamp-2 text-xs text-secondary-foreground">
         {description}
