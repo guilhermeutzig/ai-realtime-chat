@@ -70,6 +70,6 @@ export const createRoom = async (formData: FormData) => {
   return newRoom;
 };
 
-export const deleteAllRooms = async () => {
-  await api.room.deleteAllRooms();
+export const deleteRoom = async (id: string) => {
+  await api.room.deleteRoom({ id });
 };

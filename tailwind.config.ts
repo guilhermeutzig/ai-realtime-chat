@@ -23,15 +23,15 @@ const config = {
         input: "var(--input)",
         ring: "var(--ring)",
         background: "var(--background)",
-        foreground: "var(--foreground)",
-        primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
-        },
-        secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
-        },
+        foreground: "var(--primary-foreground)",
+        "primary-foreground": "#f7fafc",
+        "secondary-foreground": "#a6b1be",
+        card: "#020817",
+        primary: "#3b82f6",
+        secondary: "#2c2f33",
+        alternate: "#5e9ed6",
+        success: "#03740e",
+        danger: "#b80000",
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
@@ -47,10 +47,6 @@ const config = {
         popover: {
           DEFAULT: "var(--popover)",
           foreground: "var(--popover-foreground)",
-        },
-        card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
         },
       },
       borderRadius: {

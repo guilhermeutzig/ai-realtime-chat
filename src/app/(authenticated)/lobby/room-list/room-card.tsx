@@ -2,12 +2,19 @@
 
 import { daysFromNow } from "@/lib/date";
 import { type RoomWithMembersCount } from "@/types";
+import { deleteRoom } from "../actions";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { AlertDialog } from "@/components/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface Props extends RoomWithMembersCount {
   isOwner: boolean;
 }
 
 const RoomCard = ({
+  id,
   name,
   createdAt,
   createdBy,
@@ -16,8 +23,25 @@ const RoomCard = ({
   description,
   isOwner,
 }: Props) => {
-  const handleDeleteRoom = () => {
-    console.log("delete room");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleDeleteRoom = async () => {
+    setLoading(true);
+    await deleteRoom(id)
+      .then(() => {
+        toast({
+          title: "Success!",
+          description: "Room deleted successfully.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
+      .catch((error) => {
+        // logError(error);
+        alert(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -40,12 +64,18 @@ const RoomCard = ({
         {description}
       </div>
       {isOwner && (
-        <button
-          className="rounded-md border bg-card px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground transition-colors hover:bg-accent"
-          onClick={handleDeleteRoom}
-        >
-          Delete Room
-        </button>
+        <AlertDialog
+          title="Delete Room"
+          description={`Are you sure you want to delete room "${name}"?`}
+          cancel="Cancel"
+          action="Delete"
+          onConfirm={handleDeleteRoom}
+          button={
+            <Button variant="outline" size="sm" disabled={loading}>
+              Delete Room
+            </Button>
+          }
+        />
       )}
     </div>
   );

@@ -76,9 +76,11 @@ export const roomRouter = createTRPCRouter({
       });
     }),
 
-  deleteAllRooms: protectedProcedure.mutation(async ({ ctx }) => {
-    return ctx.db.room.deleteMany();
-  }),
+  deleteRoom: protectedProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.room.delete({ where: { id: input.id } });
+    }),
 
   addMemberToRoom: protectedProcedure
     .input(z.object({ userId: z.string().min(1), roomId: z.string().min(1) }))
