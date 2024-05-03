@@ -13,7 +13,6 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
-import { type CreateWSSContextFnOptions } from "@trpc/server/adapters/ws";
 
 /**
  * 1. CONTEXT
@@ -27,7 +26,7 @@ import { type CreateWSSContextFnOptions } from "@trpc/server/adapters/ws";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: CreateWSSContextFnOptions) => {
+export const createTRPCContext = async (opts: { headers: Headers }) => {
   const session = await getServerAuthSession();
 
   return {
