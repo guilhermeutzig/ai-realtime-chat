@@ -16,7 +16,7 @@ const Rooms = async () => {
           <h2 className="text-xl font-semibold">My Rooms</h2>
           <CreateRoom />
         </div>
-        <List userId={session?.user?.id} rooms={myRooms} />
+        <List userId={session?.user?.id} rooms={myRooms} myRooms />
       </div>
       <div>
         <div className="mb-4 flex items-center justify-between">
