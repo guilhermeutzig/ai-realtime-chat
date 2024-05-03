@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { observable } from "@trpc/server/observable";
+import { type Room } from "@prisma/client";
+import EventEmitter from "events";
+
+const ee = new EventEmitter();
 
 export const roomRouter = createTRPCRouter({
   getAllRooms: protectedProcedure.query(async ({ ctx }) => {
@@ -60,6 +65,20 @@ export const roomRouter = createTRPCRouter({
           },
         },
       },
+    });
+  }),
+
+  onCreateRoom: protectedProcedure.subscription(async () => {
+    return observable<Room>((emit) => {
+      const onCreate = (data: Room) => {
+        emit.next(data);
+      };
+
+      ee.on("createRoom", onCreate);
+
+      return () => {
+        ee.off("createRoom", onCreate);
+      };
     });
   }),
 

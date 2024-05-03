@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "commonjs",
+    "outDir": "dist",
+    "lib": ["ESNext", "DOM"],
+    "isolatedModules": false,
+    "noEmit": false,
+    "esModuleInterop": true
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.cjs",
+    "**/*.js",
+    ".next/types/**/*.ts"
+  ],
+  "ts-node": {
+    "esm": true
+  }
+}

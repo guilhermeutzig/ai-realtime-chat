@@ -13,6 +13,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import { type CreateWSSContextFnOptions } from "@trpc/server/adapters/ws";
 
 /**
  * 1. CONTEXT
@@ -26,7 +27,7 @@ import { db } from "@/server/db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
+export const createTRPCContext = async (opts: CreateWSSContextFnOptions) => {
   const session = await getServerAuthSession();
 
   return {
@@ -43,7 +44,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
