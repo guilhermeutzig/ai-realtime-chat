@@ -7,10 +7,12 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { AlertDialog } from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pusherClient } from "@/lib/pusher";
 
 interface Props extends RoomWithMembersCount {
   isOwner: boolean;
+  onDelete: (roomId: string) => void;
 }
 
 const RoomCard = ({
@@ -22,8 +24,19 @@ const RoomCard = ({
   maxMembers,
   description,
   isOwner,
+  onDelete,
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const channel = pusherClient.subscribe("rooms");
+    channel.bind("room:deleted", (roomId: string) => onDelete(roomId));
+
+    return () => {
+      channel.unsubscribe();
+      channel.unbind("room:deleted");
+    };
+  }, []);
 
   const handleDeleteRoom = async () => {
     setLoading(true);

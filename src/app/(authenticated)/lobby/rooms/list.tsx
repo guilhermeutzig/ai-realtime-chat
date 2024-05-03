@@ -11,7 +11,7 @@ type Props = {
   userId?: string;
 };
 
-const MyRooms = ({ rooms: roomsProp, userId }: Props) => {
+const List = ({ rooms: roomsProp, userId }: Props) => {
   const [rooms, setRooms] = useState<RoomWithMembersCount[]>(roomsProp);
 
   useEffect(() => {
@@ -28,7 +28,6 @@ const MyRooms = ({ rooms: roomsProp, userId }: Props) => {
   }, []);
 
   const handleDelete = (roomId: string) => {
-    console.log(roomId);
     setRooms((prev) => prev.filter((room) => room.id !== roomId));
   };
 
@@ -48,4 +47,4 @@ const MyRooms = ({ rooms: roomsProp, userId }: Props) => {
   );
 };
 
-export default MyRooms;
+export default List;

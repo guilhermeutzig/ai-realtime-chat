@@ -71,7 +71,12 @@ export const roomRouter = createTRPCRouter({
   deleteRoom: protectedProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.room.delete({ where: { id: input.id } });
+      const deletedRoom = await ctx.db.room.delete({
+        where: { id: input.id },
+      });
+
+      await pusherServer.trigger("rooms", "room:deleted", deletedRoom.id);
+      return deletedRoom;
     }),
 
   addMemberToRoom: protectedProcedure
