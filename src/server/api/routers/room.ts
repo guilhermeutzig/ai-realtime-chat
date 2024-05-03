@@ -42,6 +42,7 @@ export const roomRouter = createTRPCRouter({
       select: {
         id: true,
         name: true,
+        createdBy: true,
         createdById: true,
         createdAt: true,
         updatedAt: true,

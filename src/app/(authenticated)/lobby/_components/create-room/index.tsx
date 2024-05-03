@@ -13,7 +13,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useState, type FormEvent } from "react";
-import { createRoom, deleteAllRooms } from "./actions";
+import {
+  createRoom,
+  deleteAllRooms,
+} from "@/app/(authenticated)/lobby/actions";
 
 const CreateRoom = () => {
   const [loading, setLoading] = useState<boolean>(false);
