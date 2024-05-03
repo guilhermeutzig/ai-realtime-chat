@@ -7,30 +7,36 @@ export const roomRouter = createTRPCRouter({
     return await ctx.db.room.findMany();
   }),
 
-  getAllRoomsWithMembersCount: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.room.findMany({
-      where: {
-        NOT: {
-          createdById: ctx.session.user.id,
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        createdBy: true,
-        createdById: true,
-        createdAt: true,
-        updatedAt: true,
-        maxMembers: true,
-        description: true,
-        members: {
-          select: {
-            _count: true,
+  getAllRoomsWithMembersCount: protectedProcedure
+    .input(z.object({ searchedRoom: z.string().optional() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.room.findMany({
+        where: {
+          name: {
+            contains: input.searchedRoom,
+            mode: "insensitive",
+          },
+          NOT: {
+            createdById: ctx.session.user.id,
           },
         },
-      },
-    });
-  }),
+        select: {
+          id: true,
+          name: true,
+          createdBy: true,
+          createdById: true,
+          createdAt: true,
+          updatedAt: true,
+          maxMembers: true,
+          description: true,
+          members: {
+            select: {
+              _count: true,
+            },
+          },
+        },
+      });
+    }),
 
   getUserRooms: protectedProcedure.query(({ ctx }) => {
     return ctx.db.room.findMany({

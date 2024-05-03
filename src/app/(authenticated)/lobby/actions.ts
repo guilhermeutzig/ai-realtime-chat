@@ -4,8 +4,12 @@ import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { type RoomWithMembersCount } from "@/types";
 
-export const getRooms = async (): Promise<RoomWithMembersCount[]> => {
-  const rooms = await api.room.getAllRoomsWithMembersCount();
+export const getRooms = async (
+  searchedRoom = "",
+): Promise<RoomWithMembersCount[]> => {
+  const rooms = await api.room.getAllRoomsWithMembersCount({
+    searchedRoom,
+  });
 
   if (!rooms) return [];
 
