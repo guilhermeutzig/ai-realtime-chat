@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import Rooms from "./_components/rooms";
+import Rooms from "./rooms";
 
 export default async function Home() {
   const session = await getServerAuthSession();

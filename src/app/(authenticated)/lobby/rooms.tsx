@@ -1,6 +1,6 @@
 import RoomList from "@/components/room-list";
 import CreateRoom from "./create-room";
-import { getRooms, getUserRooms } from "../actions";
+import { getRooms, getUserRooms } from "./actions";
 import { getServerAuthSession } from "@/server/auth";
 
 const Rooms = async () => {

@@ -1,4 +1,4 @@
-import RoomCard from "./_components/room-card";
+import RoomCard from "./room-card";
 import { type RoomWithMembersCount } from "@/types";
 
 type Props = {
