@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import "@/styles/globals.css";
+import { TRPCReactProvider } from "@/trpc/react";
 
 import { Inter } from "next/font/google";
 
@@ -24,7 +25,7 @@ export default async function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <main className="flex min-h-screen flex-col items-center justify-center bg-background text-white">
           <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-            {children}
+            <TRPCReactProvider>{children}</TRPCReactProvider>
           </div>
         </main>
         <Toaster />

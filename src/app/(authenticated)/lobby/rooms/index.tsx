@@ -1,8 +1,9 @@
-import RoomList from "@/app/(authenticated)/lobby/room-list";
 import CreateRoom from "./create-room";
-import { getRooms, getUserRooms } from "./actions";
+import { getRooms, getUserRooms } from "../actions";
 import { getServerAuthSession } from "@/server/auth";
-import Filters from "./filters";
+import Filters from "@/app/(authenticated)/lobby/filters";
+import MyRooms from "./my-rooms";
+import AllRooms from "./all-rooms";
 
 const Rooms = async () => {
   const rooms = await getRooms();
@@ -16,14 +17,14 @@ const Rooms = async () => {
           <h2 className="text-xl font-semibold">My Rooms</h2>
           <CreateRoom />
         </div>
-        <RoomList userId={session?.user?.id} rooms={myRooms} />
+        <MyRooms userId={session?.user?.id} rooms={myRooms} />
       </div>
       <div>
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">Rooms</h2>
         </div>
         <Filters />
-        <RoomList userId={session?.user?.id} rooms={rooms} />
+        <AllRooms userId={session?.user?.id} rooms={rooms} />
       </div>
     </div>
   );

@@ -1,11 +1,8 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { observable } from "@trpc/server/observable";
-import { type Room } from "@prisma/client";
-import EventEmitter from "events";
-
-const ee = new EventEmitter();
+import { pusherServer } from "@/lib/pusher";
+import { returnedRoomFields } from "../utils";
 
 export const roomRouter = createTRPCRouter({
   getAllRooms: protectedProcedure.query(async ({ ctx }) => {
@@ -25,21 +22,7 @@ export const roomRouter = createTRPCRouter({
             createdById: ctx.session.user.id,
           },
         },
-        select: {
-          id: true,
-          name: true,
-          createdBy: true,
-          createdById: true,
-          createdAt: true,
-          updatedAt: true,
-          maxMembers: true,
-          description: true,
-          members: {
-            select: {
-              _count: true,
-            },
-          },
-        },
+        select: returnedRoomFields,
       });
     }),
 
@@ -50,35 +33,7 @@ export const roomRouter = createTRPCRouter({
           id: ctx.session.user.id,
         },
       },
-      select: {
-        id: true,
-        name: true,
-        createdBy: true,
-        createdById: true,
-        createdAt: true,
-        updatedAt: true,
-        maxMembers: true,
-        description: true,
-        members: {
-          select: {
-            _count: true,
-          },
-        },
-      },
-    });
-  }),
-
-  onCreateRoom: protectedProcedure.subscription(async () => {
-    return observable<Room>((emit) => {
-      const onCreate = (data: Room) => {
-        emit.next(data);
-      };
-
-      ee.on("createRoom", onCreate);
-
-      return () => {
-        ee.off("createRoom", onCreate);
-      };
+      select: returnedRoomFields,
     });
   }),
 
@@ -91,14 +46,26 @@ export const roomRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.room.create({
-        data: {
-          name: input.name,
-          description: input.description,
-          maxMembers: input.maxMembers,
-          createdBy: { connect: { id: ctx.session.user.id } },
-        },
+      const newRoom = await ctx.db.$transaction(async (prisma) => {
+        const room = await prisma.room.create({
+          data: {
+            name: input.name,
+            description: input.description,
+            maxMembers: input.maxMembers,
+            createdBy: { connect: { id: ctx.session.user.id } },
+          },
+        });
+
+        await prisma.room.update({
+          where: { id: room.id },
+          data: { members: { connect: { id: ctx.session.user.id } } },
+        });
+
+        return room;
       });
+
+      await pusherServer.trigger("rooms", "room:created", newRoom);
+      return newRoom;
     }),
 
   deleteRoom: protectedProcedure

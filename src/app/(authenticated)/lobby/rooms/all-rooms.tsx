@@ -1,3 +1,5 @@
+"use client";
+
 import RoomCard from "./room-card";
 import { type RoomWithMembersCount } from "@/types";
 
@@ -6,10 +8,10 @@ type Props = {
   userId?: string;
 };
 
-const RoomList = async ({ rooms, userId }: Props) => {
+const AllRooms = ({ rooms, userId }: Props) => {
   return (
     <ul className="flex flex-col gap-4 p-0">
-      {rooms.map((room) => (
+      {rooms?.map((room) => (
         <li key={room.id}>
           <RoomCard
             key={room.id}
@@ -22,4 +24,4 @@ const RoomList = async ({ rooms, userId }: Props) => {
   );
 };
 
-export default RoomList;
+export default AllRooms;
