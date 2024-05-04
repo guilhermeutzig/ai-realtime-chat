@@ -117,10 +117,13 @@ export const roomRouter = createTRPCRouter({
 
       await pusherServer.trigger("rooms", "room:joined", {
         ...joinedRoom,
-        joined: true,
+        joined: ctx.session.user.id === joinedRoom.createdBy.id,
       });
 
-      return { ...joinedRoom, joined: true };
+      return {
+        ...joinedRoom,
+        joined: ctx.session.user.id === joinedRoom.createdBy.id,
+      };
     }),
 
   leaveRoom: protectedProcedure

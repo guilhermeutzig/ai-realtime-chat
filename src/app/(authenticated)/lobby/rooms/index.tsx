@@ -47,8 +47,11 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
     };
 
     const roomJoinedCallback = (room: ExtendedRoom) => {
+      const isCreator = room.createdBy?.id === session?.user?.id;
+      const setNewRoom = isCreator ? setMyRooms : setRooms;
       const formattedRoom = formatRooms([room])[0];
-      setRooms((prev) =>
+
+      setNewRoom((prev) =>
         prev.map((room) =>
           room.id === formattedRoom.id ? formattedRoom : room,
         ),
@@ -61,8 +64,11 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
     };
 
     const roomLeftCallback = (room: ExtendedRoom) => {
+      const isCreator = room.createdBy?.id === session?.user?.id;
+      const setNewRoom = isCreator ? setMyRooms : setRooms;
       const formattedRoom = formatRooms([room])[0];
-      setRooms((prev) =>
+
+      setNewRoom((prev) =>
         prev.map((room) =>
           room.id === formattedRoom.id ? formattedRoom : room,
         ),
