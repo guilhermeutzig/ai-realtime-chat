@@ -2,7 +2,7 @@
 
 import { daysFromNow } from "@/lib/date";
 import { type ExtendedRoom } from "@/types";
-import { deleteRoom } from "../actions";
+import { deleteRoom, joinRoom, leaveRoom } from "../actions";
 import { AlertDialog } from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -35,6 +35,38 @@ const RoomCard = ({
         toast({
           title: "Error!",
           description: "An error occurred while searching for rooms.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleJoinRoom = async () => {
+    setLoading(true);
+    await joinRoom(id)
+      .catch((error: Error) => {
+        logError(error);
+        toast({
+          title: "Error!",
+          description: "An error occurred while joining the room.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleLeaveRoom = async () => {
+    setLoading(true);
+    await leaveRoom(id)
+      .catch((error: Error) => {
+        logError(error);
+        toast({
+          title: "Error!",
+          description: "An error occurred while leaving the room.",
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })
@@ -76,13 +108,28 @@ const RoomCard = ({
           }
         />
       )}
-      {!isOwner && !joined && (
-        <div className="flex w-full justify-end">
-          <Button variant="outline" size="sm" disabled={loading}>
+      <div className="flex w-full justify-end">
+        {!isOwner && !joined && (
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={loading}
+            onClick={handleJoinRoom}
+          >
             Join Room
           </Button>
-        </div>
-      )}
+        )}
+        {!isOwner && joined && (
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={loading}
+            onClick={handleLeaveRoom}
+          >
+            Leave Room
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

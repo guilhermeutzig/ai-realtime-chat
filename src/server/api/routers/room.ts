@@ -42,17 +42,6 @@ export const roomRouter = createTRPCRouter({
       }));
     }),
 
-  getRoomMaxMembers: protectedProcedure
-    .input(z.object({ roomId: z.string().min(1) }))
-    .query(({ ctx, input }) => {
-      return ctx.db.room.findUnique({
-        where: { id: input.roomId },
-        select: {
-          maxMembers: true,
-        },
-      });
-    }),
-
   createRoom: protectedProcedure
     .input(
       z.object({
@@ -120,9 +109,31 @@ export const roomRouter = createTRPCRouter({
         throw new Error("Room is full");
       }
 
-      return ctx.db.room.update({
+      const joinedRoom = await ctx.db.room.update({
         where: { id: input.roomId },
         data: { members: { connect: { id: ctx.session.user.id } } },
+        select: roomSelectFields,
       });
+
+      await pusherServer.trigger("rooms", "room:joined", {
+        ...joinedRoom,
+        joined: true,
+      });
+
+      return { ...joinedRoom, joined: true };
+    }),
+
+  leaveRoom: protectedProcedure
+    .input(z.object({ roomId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const room = await ctx.db.room.update({
+        where: { id: input.roomId },
+        data: { members: { disconnect: { id: ctx.session.user.id } } },
+        select: roomSelectFields,
+      });
+
+      await pusherServer.trigger("rooms", "room:left", room);
+
+      return room;
     }),
 });

@@ -33,3 +33,13 @@ export const createRoom = async (formData: FormData) => {
 export const deleteRoom = async (id: string) => {
   await api.room.deleteRoom({ id });
 };
+
+export const joinRoom = async (roomId: string) => {
+  const room = await api.room.joinRoom({ roomId });
+  return room;
+};
+
+export const leaveRoom = async (roomId: string) => {
+  const room = await api.room.leaveRoom({ roomId });
+  return room;
+};

@@ -24,10 +24,10 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
   const [myRooms, setMyRooms] = useState<ExtendedRoom[]>(myRoomsProp);
 
   useEffect(() => {
-    const roomCreatedCallback = (data: ExtendedRoom) => {
-      const isCreator = data.createdBy?.id === session?.user?.id;
+    const roomCreatedCallback = (room: ExtendedRoom) => {
+      const isCreator = room.createdBy?.id === session?.user?.id;
       const setNewRoom = isCreator ? setMyRooms : setRooms;
-      const formattedRoom = formatRooms([data]);
+      const formattedRoom = formatRooms([room]);
 
       setNewRoom((prev) => [...prev, ...formattedRoom]);
       toast({
@@ -46,14 +46,46 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
       });
     };
 
+    const roomJoinedCallback = (room: ExtendedRoom) => {
+      const formattedRoom = formatRooms([room])[0];
+      setRooms((prev) =>
+        prev.map((room) =>
+          room.id === formattedRoom.id ? formattedRoom : room,
+        ),
+      );
+      toast({
+        title: "Success!",
+        description: "Room joined successfully.",
+        action: <ToastAction altText="Close">Close</ToastAction>,
+      });
+    };
+
+    const roomLeftCallback = (room: ExtendedRoom) => {
+      const formattedRoom = formatRooms([room])[0];
+      setRooms((prev) =>
+        prev.map((room) =>
+          room.id === formattedRoom.id ? formattedRoom : room,
+        ),
+      );
+      toast({
+        title: "Success!",
+        description: "Room left successfully.",
+        action: <ToastAction altText="Close">Close</ToastAction>,
+      });
+    };
+
     const channel = pusherClient.subscribe("rooms");
     channel.bind("room:created", roomCreatedCallback);
     channel.bind("room:deleted", roomDeletedCallback);
+    channel.bind("room:joined", roomJoinedCallback);
+    channel.bind("room:left", roomLeftCallback);
 
     return () => {
       channel.unsubscribe();
       channel.unbind("room:created", roomCreatedCallback);
       channel.unbind("room:deleted", roomDeletedCallback);
+      channel.unbind("room:joined", roomJoinedCallback);
+      channel.unbind("room:left", roomLeftCallback);
     };
   }, []);
 
