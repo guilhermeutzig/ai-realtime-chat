@@ -13,7 +13,7 @@ const Filters = ({ onSearch }: Props) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       onSearch(e.target.value);
     },
-    500,
+    300,
   );
 
   return (

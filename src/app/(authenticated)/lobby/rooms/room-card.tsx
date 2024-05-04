@@ -108,7 +108,7 @@ const RoomCard = ({
           }
         />
       )}
-      <div className="flex w-full justify-end">
+      <div className="flex w-full justify-end gap-2">
         {!isOwner && !joined && (
           <Button
             variant="outline"
@@ -120,14 +120,19 @@ const RoomCard = ({
           </Button>
         )}
         {!isOwner && joined && (
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={loading}
-            onClick={handleLeaveRoom}
-          >
-            Leave Room
-          </Button>
+          <>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={loading}
+              onClick={handleLeaveRoom}
+            >
+              Leave Room
+            </Button>
+            <Button variant="outline" size="sm" disabled={loading}>
+              Enter Chat
+            </Button>
+          </>
         )}
       </div>
     </div>

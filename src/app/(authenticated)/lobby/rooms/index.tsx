@@ -99,7 +99,9 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
     const newRooms = getRooms(search);
     await newRooms
       .then((rooms) => {
-        setRooms(rooms);
+        setRooms(
+          rooms.filter((room) => room.createdBy?.id !== session?.user?.id),
+        );
       })
       .catch((error: Error) => {
         logError(error);
