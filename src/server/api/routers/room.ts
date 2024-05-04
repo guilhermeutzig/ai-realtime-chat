@@ -26,16 +26,22 @@ export const roomRouter = createTRPCRouter({
       });
     }),
 
-  getUserRooms: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.room.findMany({
-      where: {
-        createdBy: {
-          id: ctx.session.user.id,
+  getUserRooms: protectedProcedure
+    .input(z.object({ searchedRoom: z.string().optional() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.room.findMany({
+        where: {
+          name: {
+            contains: input.searchedRoom,
+            mode: "insensitive",
+          },
+          createdBy: {
+            id: ctx.session.user.id,
+          },
         },
-      },
-      select: returnedRoomFields,
-    });
-  }),
+        select: returnedRoomFields,
+      });
+    }),
 
   createRoom: protectedProcedure
     .input(

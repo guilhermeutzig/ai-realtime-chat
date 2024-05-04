@@ -15,8 +15,10 @@ export const getRooms = async (
   return formatRooms(rooms as Room[]);
 };
 
-export const getUserRooms = async (): Promise<RoomWithMembersCount[]> => {
-  const rooms = await api.room.getUserRooms();
+export const getUserRooms = async (
+  searchedRoom = "",
+): Promise<RoomWithMembersCount[]> => {
+  const rooms = await api.room.getUserRooms({ searchedRoom });
   return formatRooms(rooms as Room[]);
 };
 

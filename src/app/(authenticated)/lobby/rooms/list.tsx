@@ -7,6 +7,9 @@ import { pusherClient } from "@/lib/pusher";
 import { formatRooms } from "../utils";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import Filters from "./filters";
+import CreateRoom from "./create-room";
+import { getRooms, getUserRooms } from "../actions";
 
 type Props = {
   rooms: RoomWithMembersCount[];
@@ -17,11 +20,27 @@ type Props = {
 const List = ({ rooms: roomsProp, userId, myRooms = false }: Props) => {
   const [rooms, setRooms] = useState<RoomWithMembersCount[]>(roomsProp);
 
+  const searchRoomCallback = async (search: string) => {
+    const newRooms = myRooms ? getUserRooms(search) : getRooms(search);
+    await newRooms
+      .then((rooms) => {
+        const formattedRoom = formatRooms(rooms);
+        setRooms(formattedRoom);
+      })
+      .catch(() => {
+        // logError(error);
+        toast({
+          title: "Error!",
+          description: "An error occurred while searching for rooms.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      });
+  };
+
   useEffect(() => {
     const roomCreatedCallback = (data: RoomWithMembersCount) => {
-      const canUpdate =
-        (myRooms && data.createdById === userId) ||
-        (!myRooms && data.createdById !== userId);
+      const isCreator = data.createdById === userId;
+      const canUpdate = myRooms ? isCreator : !isCreator;
 
       if (canUpdate) {
         const formattedRoom = formatRooms([data]);
@@ -50,17 +69,23 @@ const List = ({ rooms: roomsProp, userId, myRooms = false }: Props) => {
   }, []);
 
   return (
-    <ul className="flex flex-col gap-4 p-0">
-      {rooms?.map((room) => (
-        <li key={room.id}>
-          <RoomCard
-            key={room.id}
-            {...room}
-            isOwner={room.createdById === userId}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <div className="mb-4 flex items-center justify-between">
+        <Filters onSearch={searchRoomCallback} />
+        {myRooms && <CreateRoom />}
+      </div>
+      <ul className="flex flex-col gap-4 p-0">
+        {rooms?.map((room) => (
+          <li key={room.id}>
+            <RoomCard
+              key={room.id}
+              {...room}
+              isOwner={room.createdById === userId}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
