@@ -1,4 +1,4 @@
-export const returnedRoomFields = {
+export const roomSelectFields = {
   id: true,
   name: true,
   createdBy: true,

@@ -38,11 +38,6 @@ const CreateRoom = () => {
         }
 
         setOpen(false);
-        return toast({
-          title: "Success!",
-          description: "Room created successfully.",
-          action: <ToastAction altText="Close">Close</ToastAction>,
-        });
       })
       .catch((error: Error) => {
         logError(error);

@@ -1,24 +1,15 @@
 "use server";
 
 import { api } from "@/trpc/server";
-import { type RoomWithMembersCount } from "@/types";
+import { type ExtendedRoom } from "@/types";
 import { formatRooms } from "./utils";
 import { type Room } from "@prisma/client";
 
-export const getAllRooms = async (
-  searchedRoom = "",
-): Promise<RoomWithMembersCount[]> => {
-  const rooms = await api.room.getAllRooms({
+export const getRooms = async (searchedRoom = ""): Promise<ExtendedRoom[]> => {
+  const rooms = await api.room.getRooms({
     searchedRoom,
   });
 
-  return formatRooms(rooms as Room[]);
-};
-
-export const getUserRooms = async (
-  searchedRoom = "",
-): Promise<RoomWithMembersCount[]> => {
-  const rooms = await api.room.getUserRooms({ searchedRoom });
   return formatRooms(rooms as Room[]);
 };
 

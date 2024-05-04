@@ -9,9 +9,18 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import Rooms from "./rooms";
+import { getRooms } from "./actions";
 
 export default async function Home() {
   const session = await getServerAuthSession();
+  const rooms = await getRooms();
+
+  const allRooms = rooms.filter(
+    (room) => room.createdBy?.id !== session?.user?.id,
+  );
+  const myRooms = rooms.filter(
+    (room) => room.createdBy?.id === session?.user?.id,
+  );
 
   return (
     <Card className="w-[900px]">
@@ -44,7 +53,7 @@ export default async function Home() {
         </div>
       </CardHeader>
       <CardContent>
-        <Rooms />
+        <Rooms rooms={allRooms} myRooms={myRooms} session={session} />
       </CardContent>
     </Card>
   );

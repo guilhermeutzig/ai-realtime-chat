@@ -1,7 +1,7 @@
 "use client";
 
 import { daysFromNow } from "@/lib/date";
-import { type RoomWithMembersCount } from "@/types";
+import { type ExtendedRoom } from "@/types";
 import { deleteRoom } from "../actions";
 import { AlertDialog } from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { logError } from "@/lib/logger";
 
-interface Props extends RoomWithMembersCount {
+interface Props extends ExtendedRoom {
   isOwner: boolean;
 }
 
@@ -23,6 +23,7 @@ const RoomCard = ({
   maxMembers,
   description,
   isOwner,
+  joined,
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -43,7 +44,7 @@ const RoomCard = ({
   };
 
   return (
-    <div className="flex w-full flex-col items-start gap-2 rounded-lg border bg-card p-3 text-left text-sm transition-all hover:bg-accent">
+    <div className="flex w-full flex-col items-start gap-2 rounded-lg border bg-card p-3 text-left text-sm transition-all">
       <div className="flex w-full flex-col gap-1">
         <div className="flex items-center">
           <div className="flex items-center gap-2">
@@ -74,6 +75,13 @@ const RoomCard = ({
             </Button>
           }
         />
+      )}
+      {!isOwner && !joined && (
+        <div className="flex w-full justify-end">
+          <Button variant="outline" size="sm" disabled={loading}>
+            Join Room
+          </Button>
+        </div>
       )}
     </div>
   );

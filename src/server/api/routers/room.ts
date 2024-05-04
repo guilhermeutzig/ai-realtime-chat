@@ -2,40 +2,54 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { pusherServer } from "@/lib/pusher";
-import { returnedRoomFields } from "../utils";
+import { roomSelectFields } from "../utils";
 
 export const roomRouter = createTRPCRouter({
-  getAllRooms: protectedProcedure
+  getRooms: protectedProcedure
     .input(z.object({ searchedRoom: z.string().optional() }))
     .query(async ({ ctx, input }) => {
-      return await ctx.db.room.findMany({
+      const rooms = await ctx.db.room.findMany({
         where: {
           name: {
             contains: input.searchedRoom,
             mode: "insensitive",
           },
-          NOT: {
-            createdById: ctx.session.user.id,
+        },
+        select: roomSelectFields,
+      });
+
+      const userJoinedRoomIds = await ctx.db.room.findMany({
+        where: {
+          id: {
+            in: rooms.map((room) => room.id),
+          },
+          members: {
+            some: {
+              id: ctx.session.user.id,
+            },
           },
         },
-        select: returnedRoomFields,
+        select: {
+          id: true,
+        },
       });
+
+      const roomIdsWithUser = userJoinedRoomIds.map((room) => room.id);
+
+      return rooms.map((room) => ({
+        ...room,
+        joined: roomIdsWithUser.includes(room.id),
+      }));
     }),
 
-  getUserRooms: protectedProcedure
-    .input(z.object({ searchedRoom: z.string().optional() }))
+  getRoomMaxMembers: protectedProcedure
+    .input(z.object({ roomId: z.string().min(1) }))
     .query(({ ctx, input }) => {
-      return ctx.db.room.findMany({
-        where: {
-          name: {
-            contains: input.searchedRoom,
-            mode: "insensitive",
-          },
-          createdBy: {
-            id: ctx.session.user.id,
-          },
+      return ctx.db.room.findUnique({
+        where: { id: input.roomId },
+        select: {
+          maxMembers: true,
         },
-        select: returnedRoomFields,
       });
     }),
 
@@ -56,6 +70,7 @@ export const roomRouter = createTRPCRouter({
             maxMembers: input.maxMembers,
             createdBy: { connect: { id: ctx.session.user.id } },
           },
+          select: roomSelectFields,
         });
 
         await prisma.room.update({
@@ -66,7 +81,12 @@ export const roomRouter = createTRPCRouter({
         return room;
       });
 
-      await pusherServer.trigger("rooms", "room:created", newRoom);
+      const room = await ctx.db.room.findUnique({
+        where: { id: newRoom.id },
+        select: roomSelectFields,
+      });
+
+      await pusherServer.trigger("rooms", "room:created", room);
       return newRoom;
     }),
 
@@ -81,12 +101,28 @@ export const roomRouter = createTRPCRouter({
       return deletedRoom;
     }),
 
-  addMemberToRoom: protectedProcedure
-    .input(z.object({ userId: z.string().min(1), roomId: z.string().min(1) }))
+  joinRoom: protectedProcedure
+    .input(z.object({ roomId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
+      const room = await ctx.db.room.findUnique({
+        where: { id: input.roomId },
+        select: {
+          members: true,
+          maxMembers: true,
+        },
+      });
+
+      if (!room) {
+        throw new Error("Room not found");
+      }
+
+      if (room.members.length >= room.maxMembers) {
+        throw new Error("Room is full");
+      }
+
       return ctx.db.room.update({
         where: { id: input.roomId },
-        data: { members: { connect: { id: input.userId } } },
+        data: { members: { connect: { id: ctx.session.user.id } } },
       });
     }),
 });

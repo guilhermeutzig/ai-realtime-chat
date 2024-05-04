@@ -1,21 +1,16 @@
-import { type RoomWithMembersCount } from "@/types";
-import { type User, type Room } from "@prisma/client";
+import { type ExtendedRoom } from "@/types";
 
-interface ExtendedRoom extends Room {
-  createdBy?: User;
-  members?: User[];
-}
-
-export const formatRooms = (rooms: ExtendedRoom[]): RoomWithMembersCount[] => {
+export const formatRooms = (rooms: ExtendedRoom[]): ExtendedRoom[] => {
   return rooms.map((room) => ({
     id: room.id,
     name: room.name,
     createdBy: room.createdBy,
+    createdById: room.createdById,
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,
-    createdById: room.createdById,
     maxMembers: room.maxMembers,
     description: room.description,
     membersCount: room.members?.length ?? 0,
+    joined: room.joined,
   }));
 };
