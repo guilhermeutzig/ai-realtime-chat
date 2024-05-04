@@ -1,9 +1,9 @@
-import { getRooms, getUserRooms } from "../actions";
+import { getAllRooms, getUserRooms } from "../actions";
 import { getServerAuthSession } from "@/server/auth";
 import List from "./list";
 
 const Rooms = async () => {
-  const rooms = await getRooms();
+  const rooms = await getAllRooms();
   const myRooms = await getUserRooms();
   const session = await getServerAuthSession();
 

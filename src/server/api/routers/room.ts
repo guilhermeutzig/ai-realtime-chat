@@ -5,11 +5,7 @@ import { pusherServer } from "@/lib/pusher";
 import { returnedRoomFields } from "../utils";
 
 export const roomRouter = createTRPCRouter({
-  getAllRooms: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.room.findMany();
-  }),
-
-  getAllRoomsWithMembersCount: protectedProcedure
+  getAllRooms: protectedProcedure
     .input(z.object({ searchedRoom: z.string().optional() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.room.findMany({
@@ -93,11 +89,4 @@ export const roomRouter = createTRPCRouter({
         data: { members: { connect: { id: input.userId } } },
       });
     }),
-
-  getLatest: protectedProcedure.query(({ ctx }) => {
-    return ctx.db.room.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
-    });
-  }),
 });

@@ -5,10 +5,10 @@ import { type RoomWithMembersCount } from "@/types";
 import { formatRooms } from "./utils";
 import { type Room } from "@prisma/client";
 
-export const getRooms = async (
+export const getAllRooms = async (
   searchedRoom = "",
 ): Promise<RoomWithMembersCount[]> => {
-  const rooms = await api.room.getAllRoomsWithMembersCount({
+  const rooms = await api.room.getAllRooms({
     searchedRoom,
   });
 

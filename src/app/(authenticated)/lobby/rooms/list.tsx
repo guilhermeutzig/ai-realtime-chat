@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import Filters from "./filters";
 import CreateRoom from "./create-room";
-import { getRooms, getUserRooms } from "../actions";
+import { getAllRooms, getUserRooms } from "../actions";
 import { logError } from "@/lib/logger";
 
 type Props = {
@@ -22,11 +22,10 @@ const List = ({ rooms: roomsProp, userId, myRooms = false }: Props) => {
   const [rooms, setRooms] = useState<RoomWithMembersCount[]>(roomsProp);
 
   const searchRoomCallback = async (search: string) => {
-    const newRooms = myRooms ? getUserRooms(search) : getRooms(search);
+    const newRooms = myRooms ? getUserRooms(search) : getAllRooms(search);
     await newRooms
       .then((rooms) => {
-        const formattedRoom = formatRooms(rooms);
-        setRooms(formattedRoom);
+        setRooms(rooms);
       })
       .catch((error: Error) => {
         logError(error);
