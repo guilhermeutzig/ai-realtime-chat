@@ -13,7 +13,7 @@ const sentryConfig = withSentryConfig(
     // Sentry configuration options
     silent: true,
     org: "guilherme-utzig",
-    project: "javascript-nextjs",
+    project: "ai-realtime-chat",
   },
   {
     // Additional Sentry options
