@@ -32,9 +32,3 @@ This project is an AI real-time chat, where users can create accounts, join chat
 3. **Real-time Messaging**: Employs tRPC for instant message delivery through real-time message handling.
 4. **Message History**: Provides users with message history by storing chat messages in a Prisma database.
 5. **UI Components**: Utilizes shadcn/ui to build a modern and responsive user interface for the chat application.
-
-### Demo
-
-You can access the URL below to see this project in action.
-
-[Demo](https://ai-realtime-chat-gold.vercel.app/sign-in)
