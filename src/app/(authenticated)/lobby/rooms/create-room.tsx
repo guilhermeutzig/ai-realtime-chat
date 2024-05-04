@@ -16,6 +16,7 @@ import { useState, type FormEvent } from "react";
 import { createRoom } from "@/app/(authenticated)/lobby/actions";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { logError } from "@/lib/logger";
 
 const CreateRoom = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,7 +28,15 @@ const CreateRoom = () => {
     const formData = new FormData(event.currentTarget);
 
     await createRoom(formData)
-      .then(() => {
+      .then((res) => {
+        if ("error" in res) {
+          return toast({
+            title: "Error!",
+            description: res.error,
+            action: <ToastAction altText="Close">Close</ToastAction>,
+          });
+        }
+
         setOpen(false);
         return toast({
           title: "Success!",
@@ -35,9 +44,13 @@ const CreateRoom = () => {
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })
-      .catch((error) => {
-        // logError(error);
-        return alert(error);
+      .catch((error: Error) => {
+        logError(error);
+        toast({
+          title: "Error!",
+          description: "An error occurred while searching for rooms.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
       })
       .finally(() => {
         setLoading(false);

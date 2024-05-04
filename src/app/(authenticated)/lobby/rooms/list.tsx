@@ -10,6 +10,7 @@ import { ToastAction } from "@/components/ui/toast";
 import Filters from "./filters";
 import CreateRoom from "./create-room";
 import { getRooms, getUserRooms } from "../actions";
+import { logError } from "@/lib/logger";
 
 type Props = {
   rooms: RoomWithMembersCount[];
@@ -27,8 +28,8 @@ const List = ({ rooms: roomsProp, userId, myRooms = false }: Props) => {
         const formattedRoom = formatRooms(rooms);
         setRooms(formattedRoom);
       })
-      .catch(() => {
-        // logError(error);
+      .catch((error: Error) => {
+        logError(error);
         toast({
           title: "Error!",
           description: "An error occurred while searching for rooms.",

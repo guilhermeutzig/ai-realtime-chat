@@ -1,8 +1,28 @@
 /** @type {import("next").NextConfig} */
-const config = {
+import { withSentryConfig } from "@sentry/nextjs";
+
+const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
 };
 
-export default config;
+const sentryConfig = withSentryConfig(
+  nextConfig,
+  {
+    // Sentry configuration options
+    silent: true,
+    org: "guilherme-utzig",
+    project: "javascript-nextjs",
+  },
+  {
+    // Additional Sentry options
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    hideSourceMaps: true,
+    disableLogger: true,
+    automaticVercelMonitors: true,
+  },
+);
+
+export default sentryConfig;

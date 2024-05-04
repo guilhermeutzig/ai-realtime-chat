@@ -6,6 +6,9 @@ import { deleteRoom } from "../actions";
 import { AlertDialog } from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { logError } from "@/lib/logger";
 
 interface Props extends RoomWithMembersCount {
   isOwner: boolean;
@@ -26,9 +29,13 @@ const RoomCard = ({
   const handleDeleteRoom = async () => {
     setLoading(true);
     await deleteRoom(id)
-      .catch((error) => {
-        // logError(error);
-        alert(error);
+      .catch((error: Error) => {
+        logError(error);
+        toast({
+          title: "Error!",
+          description: "An error occurred while searching for rooms.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
       })
       .finally(() => {
         setLoading(false);
