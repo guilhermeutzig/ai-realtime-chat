@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,10 +5,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { getServerAuthSession } from "@/server/auth";
 import Image from "next/image";
-import Link from "next/link";
+import EditProfileForm from "./form";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -32,20 +30,7 @@ export default async function Home() {
             />
             <span>{session?.user?.name}</span>
           </div>
-          <form className="flex max-w-[20rem] flex-col items-center gap-2">
-            <label htmlFor="name" className="text-white">
-              Name:
-            </label>
-            <Input
-              id="name"
-              type="text"
-              defaultValue={session?.user?.name ?? ""}
-              placeholder="John Doe"
-            />
-
-            <Button type="submit">Save Changes</Button>
-            <Link href="/lobby">Back to Lobby</Link>
-          </form>
+          <EditProfileForm />
         </div>
       </CardContent>
     </Card>

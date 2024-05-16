@@ -139,4 +139,13 @@ export const roomRouter = createTRPCRouter({
 
       return room;
     }),
+
+  editProfile: protectedProcedure
+    .input(z.object({ name: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.user.update({
+        where: { id: ctx.session.user.id },
+        data: { name: input.name },
+      });
+    }),
 });
