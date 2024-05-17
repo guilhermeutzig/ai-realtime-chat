@@ -8,6 +8,7 @@
 - [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
 - [Supabase](https://supabase.io)
+- [CSS Modules](https://nextjs.org/docs/app/building-your-application/styling/css-modules)
 - [Tailwind CSS](https://tailwindcss.com)
 - [shadcn/ui](https://ui.shadcn.com)
 - [tRPC](https://trpc.io)
