@@ -4,14 +4,12 @@ import List from "./list";
 import { type Session } from "next-auth";
 import { type ExtendedRoom } from "@/types";
 import { useEffect, useState } from "react";
-import { getRooms } from "../actions";
-import { logError } from "@/lib/logger";
 import { toast } from "@/components/ui/use-toast";
-import Filters from "./filters";
 import { ToastAction } from "@/components/ui/toast";
 import { formatRooms } from "../utils";
 import { pusherClient } from "@/lib/pusher";
-import CreateRoom from "./create-room";
+import { Button } from "@/components/ui/button";
+import styles from "./index.module.css";
 
 type Props = {
   myRooms: ExtendedRoom[];
@@ -20,6 +18,7 @@ type Props = {
 };
 
 const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
+  const [selected, setSelected] = useState<"my" | "all">("my");
   const [rooms, setRooms] = useState<ExtendedRoom[]>(roomsProp);
   const [myRooms, setMyRooms] = useState<ExtendedRoom[]>(myRoomsProp);
 
@@ -95,41 +94,49 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
     };
   }, []);
 
-  const searchRoomCallback = async (search: string) => {
-    const newRooms = getRooms(search);
-    await newRooms
-      .then((rooms) => {
-        setRooms(
-          rooms.filter((room) => room.createdBy?.id !== session?.user?.id),
-        );
-      })
-      .catch((error: Error) => {
-        logError(error);
-        toast({
-          title: "Error!",
-          description: "An error occurred while searching for rooms.",
-          action: <ToastAction altText="Close">Close</ToastAction>,
-        });
-      });
-  };
+  // const searchRoomCallback = async (search: string) => {
+  //   const newRooms = getRooms(search);
+  //   await newRooms
+  //     .then((rooms) => {
+  //       setRooms(
+  //         rooms.filter((room) => room.createdBy?.id !== session?.user?.id),
+  //       );
+  //     })
+  //     .catch((error: Error) => {
+  //       logError(error);
+  //       toast({
+  //         title: "Error!",
+  //         description: "An error occurred while searching for rooms.",
+  //         action: <ToastAction altText="Close">Close</ToastAction>,
+  //       });
+  //     });
+  // };
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <div>
-        <h2 className="mb-4 text-xl font-semibold">My Rooms</h2>
-        <div className="mb-4 flex items-center justify-between">
-          <CreateRoom />
-        </div>
-        <List userId={session?.user?.id} rooms={myRooms} />
+    <>
+      <div className={styles["grid-container"]}>
+        <Button
+          className={styles.button}
+          variant={selected === "my" ? "big-active" : "big"}
+          onClick={() => setSelected("my")}
+        >
+          My rooms
+        </Button>
+        <Button
+          className={styles.button}
+          variant={selected === "all" ? "big-active" : "big"}
+          onClick={() => setSelected("all")}
+        >
+          Public rooms
+        </Button>
+        {/* <CreateRoom /> */}
+        {/* <Filters onSearch={searchRoomCallback} /> */}
       </div>
-      <div>
-        <h2 className="mb-4 text-xl font-semibold">Rooms</h2>
-        <div className="mb-4 flex items-center justify-between">
-          <Filters onSearch={searchRoomCallback} />
-        </div>
-        <List userId={session?.user?.id} rooms={rooms} />
-      </div>
-    </div>
+      <List
+        userId={session?.user?.id}
+        rooms={selected === "my" ? myRooms : rooms}
+      />
+    </>
   );
 };
 

@@ -55,7 +55,7 @@ const CreateRoom = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="max-w-max" size="sm">
+        <Button variant="default" className="max-w-max">
           Create Room
         </Button>
       </DialogTrigger>

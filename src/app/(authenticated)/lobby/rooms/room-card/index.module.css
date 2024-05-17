@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  background-color: var(--secondary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3);
+  color: var(--light);
+}
+
+.first-row {
+  display: grid;
+  grid-template-columns: 1fr 32px max-content;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.icons svg {
+  height: 16px;
+  width: 16px;
+}
+
+.icons svg:first-child {
+  stroke: var(--light);
+}
+
+.icons svg:last-child {
+  stroke: var(--success);
+}
+
+.second-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.second-row p {
+  color: var(--alternate);
+}
+
+.second-row time {
+  color: var(--light);
+  text-align: right;
+}

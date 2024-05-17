@@ -1,0 +1,10 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.button {
+  width: 214px;
+}

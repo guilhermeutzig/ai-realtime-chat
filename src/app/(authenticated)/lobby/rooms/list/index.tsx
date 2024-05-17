@@ -1,7 +1,8 @@
 "use client";
 
-import RoomCard from "./room-card";
+import RoomCard from "../room-card";
 import { type ExtendedRoom } from "@/types";
+import styles from "./index.module.css";
 
 type Props = {
   rooms: ExtendedRoom[];
@@ -10,7 +11,7 @@ type Props = {
 
 const List = ({ rooms, userId }: Props) => {
   return (
-    <ul className="flex flex-col gap-4 p-0">
+    <ul className={styles.list}>
       {rooms?.map((room) => (
         <li key={room.id}>
           <RoomCard

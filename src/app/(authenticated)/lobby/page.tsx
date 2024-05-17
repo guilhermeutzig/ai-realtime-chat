@@ -1,17 +1,10 @@
-import { getServerAuthSession } from "@/server/auth";
-import GoogleSignInButton from "@/components/google-sign-in";
-import Link from "next/link";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import Logo from "@/../public/logo.svg";
+import styles from "./page.module.css";
 import Rooms from "./rooms";
+import { getServerAuthSession } from "@/server/auth";
 import { getRooms } from "./actions";
 
-export default async function Home() {
+const Lobby = async () => {
   const session = await getServerAuthSession();
   const rooms = await getRooms();
 
@@ -23,38 +16,16 @@ export default async function Home() {
   );
 
   return (
-    <Card className="w-[900px]">
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <CardTitle>Welcome to the Lobby</CardTitle>
-            <CardDescription>
-              Feel free to explore and interact!
-            </CardDescription>
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-sm text-secondary-foreground">
-              Signed in as{" "}
-              <span className="font-semibold text-white">
-                {session?.user?.name}
-              </span>
-            </span>
-            <div className="flex items-center justify-between gap-2">
-              <Link
-                href="/profile"
-                title="Click here to edit your profile"
-                className="text-blue-500 hover:underline"
-              >
-                Edit profile
-              </Link>
-              <GoogleSignInButton signedIn={!!session} />
-            </div>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <Rooms rooms={allRooms} myRooms={myRooms} session={session} />
-      </CardContent>
-    </Card>
+    <main className={styles.main}>
+      <div className={styles.container}>
+        <Logo />
+        <h4 className={styles.subtitle}>
+          Try a new way to learn. Feel free to explore and interact!
+        </h4>
+        <Rooms myRooms={myRooms} rooms={allRooms} session={session} />
+      </div>
+    </main>
   );
-}
+};
+
+export default Lobby;

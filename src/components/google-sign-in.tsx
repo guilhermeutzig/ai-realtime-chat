@@ -13,11 +13,7 @@ const GoogleSignInButton = ({ signedIn }: Props) => {
   }
 
   return (
-    <Button
-      className="w-max-content"
-      size={signedIn ? "sm" : "lg"}
-      onClick={() => signIn("google")}
-    >
+    <Button className="w-max-content" onClick={() => signIn("google")}>
       Sign in with Google
     </Button>
   );

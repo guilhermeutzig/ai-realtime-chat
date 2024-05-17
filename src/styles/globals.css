@@ -4,31 +4,146 @@
 
 @layer base {
   :root {
-    /* internal variables */
+    --radius-sm: 4px;
+    --radius-md: 8px;
     --primary-foreground: #f7fafc;
     --secondary-foreground: #a6b1be;
     --background: #0b0a0b;
-    --card: #020817;
-    --primary: #3b82f6;
-    --secondary: #2c2f33;
+    --background-light: #0e101b;
+    --light: #eaf0f9;
+    --dark: #00060c;
     --alternate: #5e9ed6;
-    --success: #03740e;
-    --danger: #b80000;
-    --radius: 8px;
-
-    /* shadcn/iu theme variables */
-    --card-foreground: var(--primary-foreground);
-    --popover: var(--background);
-    --popover-foreground: var(--primary-foreground);
-    --primary-foreground: var(--primary-foreground);
-    --secondary-foreground: var(--primary-foreground);
-    --muted: var(--secondary);
-    --muted-foreground: var(--secondary-foreground);
-    --accent: var(--secondary);
-    --accent-foreground: var(--primary-foreground);
-    --destructive: var(--danger);
-    --destructive-foreground: var(--primary-foreground);
-    --border: var(--secondary);
-    --input: var(--secondary);
+    --alternate-dark: #2463eb;
+    --primary: #3b82f6;
+    --border: #1e293b;
+    --card: #020817;
+    --secondary: #2c2f33;
+    --success: #1aa327;
+    --danger: #e72b41;
+    --alert: #ddcd40;
+    --shadow-tab-active: 3px 2px 2px 0px rgba(55, 83, 129, 0.25);
+    --spacing-1: 0.25rem; /* 4px */
+    --spacing-2: 0.5rem; /* 8px */
+    --spacing-3: 1rem; /* 16px */
+    --spacing-4: 1.5rem; /* 24px */
+    --spacing-5: 2rem; /* 32px */
+    --spacing-6: 2.5rem; /* 40px */
+    --spacing-7: 5rem; /* 80px */
+    --gradient-background: linear-gradient(
+      to top left,
+      var(--background) 0%,
+      var(--card) 15%,
+      var(--background) 52%,
+      var(--card) 92%
+    );
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--gradient-background);
+  height: 100vh;
+  width: 100vw;
+}
+
+.headline-1 {
+  font-size: 62px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.headline-2 {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.headline-3 {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.headline-4 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.headline-5 {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.headline-6 {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.section-title-1 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1.15px;
+}
+
+.section-title-2 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1.15px;
+}
+
+.subtitle-1 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 1.15px;
+}
+
+.subtitle-2 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.body-1 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+}
+
+.body-2 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0.25px;
+}
+
+.button-1 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1.5px;
+}
+
+.button-2 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1.5px;
 }
