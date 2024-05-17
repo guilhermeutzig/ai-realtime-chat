@@ -13,7 +13,7 @@ export const metadata = {
   title: "AI Real-time Chat",
   description:
     "AI Real-time Chat is an interactive platform allowing users to create accounts, join chat rooms, and engage in real-time messaging with robust user authentication and message history features.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.svg" }],
 };
 
 export default async function RootLayout({
