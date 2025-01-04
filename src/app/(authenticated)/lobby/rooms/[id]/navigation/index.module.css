@@ -1,0 +1,62 @@
+.nav {
+  display: grid;
+  grid-template-columns: max-content auto;
+  height: 100vh;
+}
+
+.navLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4);
+  border-right: 1px solid var(--border);
+}
+
+.navTop {
+  display: grid;
+  grid-template-columns: auto max-content;
+  gap: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  padding: var(--spacing-4);
+}
+
+.navTop > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.divider {
+  height: 2px;
+  width: 100%;
+  background-color: var(--border);
+}
+
+.listItem,
+.myRoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.listItem svg {
+  fill: var(--primary);
+  width: 40px;
+  height: 40px;
+  stroke: none;
+}
+
+.myRoom svg {
+  height: 56px;
+  width: 56px;
+  fill: var(--alternate);
+  stroke: none;
+}

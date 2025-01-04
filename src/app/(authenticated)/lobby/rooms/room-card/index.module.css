@@ -56,7 +56,8 @@
   margin-top: var(--spacing-2);
 }
 
-.buttons button {
+.buttons button,
+.buttons a {
   flex: 1;
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: var(--radius-sm);
@@ -66,9 +67,11 @@
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: center;
 }
 
-.buttons button:hover {
+.buttons button:hover,
+.buttons a:hover {
   background: var(--light);
   color: var(--secondary);
 }

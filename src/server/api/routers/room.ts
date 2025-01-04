@@ -42,6 +42,24 @@ export const roomRouter = createTRPCRouter({
       }));
     }),
 
+  getRoom: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const room = await ctx.db.room.findUnique({
+        where: { id: input.id },
+        select: roomSelectFields,
+      });
+      return room;
+    }),
+
+  getJoinedRooms: protectedProcedure.query(async ({ ctx }) => {
+    const rooms = await ctx.db.room.findMany({
+      where: { members: { some: { id: ctx.session.user.id } } },
+      select: roomSelectFields,
+    });
+    return rooms;
+  }),
+
   createRoom: protectedProcedure
     .input(
       z.object({
@@ -74,9 +92,6 @@ export const roomRouter = createTRPCRouter({
         where: { id: newRoom.id },
         select: roomSelectFields,
       });
-
-      console.log(room);
-      console.log(pusherServer);
 
       await pusherServer.trigger("rooms", "room:created", room);
       return newRoom;

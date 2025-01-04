@@ -20,7 +20,7 @@ type Props = {
   session: Session | null;
 };
 
-export function ProfileMenu({ session }: Props) {
+function ProfileMenu({ session }: Props) {
   if (!session?.user) return;
 
   return (
@@ -81,3 +81,5 @@ export function ProfileMenu({ session }: Props) {
     </div>
   );
 }
+
+export default ProfileMenu;

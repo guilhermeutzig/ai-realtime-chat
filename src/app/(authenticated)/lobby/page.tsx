@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import Rooms from "./rooms";
 import { getServerAuthSession } from "@/server/auth";
 import { getRooms } from "./actions";
-import { ProfileMenu } from "@/components/profile-menu";
+import ProfileMenu from "@/components/profile-menu";
 
 const Lobby = async () => {
   const session = await getServerAuthSession();
@@ -17,16 +17,18 @@ const Lobby = async () => {
   );
 
   return (
-    <main className={styles.main}>
+    <>
       <ProfileMenu session={session} />
-      <div className={styles.container}>
-        <Logo />
-        <h4 className={styles.subtitle}>
-          Try a new way to learn. Feel free to explore and interact!
-        </h4>
-        <Rooms myRooms={myRooms} rooms={allRooms} session={session} />
-      </div>
-    </main>
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <Logo />
+          <h4 className={styles.subtitle}>
+            Try a new way to learn. Feel free to explore and interact!
+          </h4>
+          <Rooms myRooms={myRooms} rooms={allRooms} session={session} />
+        </div>
+      </main>
+    </>
   );
 };
 

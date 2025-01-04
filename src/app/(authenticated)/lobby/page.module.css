@@ -5,6 +5,7 @@
   width: 100%;
   align-items: center;
   justify-content: center;
+  background: var(--gradient-background);
 }
 
 .container {

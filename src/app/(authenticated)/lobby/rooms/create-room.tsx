@@ -37,13 +37,19 @@ const CreateRoom = () => {
           });
         }
 
+        toast({
+          title: "Success!",
+          description: "Room created successfully.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+
         setOpen(false);
       })
       .catch((error: Error) => {
         logError(error);
         toast({
           title: "Error!",
-          description: "An error occurred while searching for rooms.",
+          description: error.message,
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })

@@ -4,8 +4,6 @@ import List from "./list";
 import { type Session } from "next-auth";
 import { type ExtendedRoom } from "@/types";
 import { useEffect, useState } from "react";
-import { toast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import { formatRooms } from "../utils";
 import { pusherClient } from "@/lib/pusher";
 import { Button } from "@/components/ui/button";
@@ -25,26 +23,15 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
 
   useEffect(() => {
     const roomCreatedCallback = (room: ExtendedRoom) => {
-      console.log("roomCreatedCallback");
       const isCreator = room.createdBy?.id === session?.user?.id;
       const setNewRoom = isCreator ? setMyRooms : setRooms;
       const formattedRoom = formatRooms([room]);
 
       setNewRoom((prev) => [...prev, ...formattedRoom]);
-      toast({
-        title: "Success!",
-        description: "Room created successfully.",
-        action: <ToastAction altText="Close">Close</ToastAction>,
-      });
     };
 
     const roomDeletedCallback = (roomId: string) => {
       setMyRooms((prev) => prev.filter((room) => room.id !== roomId));
-      toast({
-        title: "Success!",
-        description: "Room deleted successfully.",
-        action: <ToastAction altText="Close">Close</ToastAction>,
-      });
     };
 
     const roomJoinedCallback = (room: ExtendedRoom) => {
@@ -57,11 +44,6 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
           room.id === formattedRoom.id ? formattedRoom : room,
         ),
       );
-      toast({
-        title: "Success!",
-        description: "Room joined successfully.",
-        action: <ToastAction altText="Close">Close</ToastAction>,
-      });
     };
 
     const roomLeftCallback = (room: ExtendedRoom) => {
@@ -74,11 +56,6 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
           room.id === formattedRoom.id ? formattedRoom : room,
         ),
       );
-      toast({
-        title: "Success!",
-        description: "Room left successfully.",
-        action: <ToastAction altText="Close">Close</ToastAction>,
-      });
     };
 
     pusherClient.connection.bind(

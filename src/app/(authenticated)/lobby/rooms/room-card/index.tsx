@@ -10,6 +10,7 @@ import { AudioLines, Users } from "lucide-react";
 import styles from "./index.module.css";
 import { cn } from "@/lib/utils";
 import { DatePattern, formatDate } from "@/lib/date";
+import Link from "next/link";
 
 interface Props extends ExtendedRoom {
   isOwner: boolean;
@@ -31,11 +32,18 @@ const RoomCard = ({
   const handleDeleteRoom = async () => {
     setLoading(true);
     await deleteRoom(id)
+      .then(() => {
+        toast({
+          title: "Success!",
+          description: "Room deleted successfully.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
       .catch((error: Error) => {
         logError(error);
         toast({
           title: "Error!",
-          description: "An error occurred while searching for rooms.",
+          description: error.message,
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })
@@ -47,11 +55,18 @@ const RoomCard = ({
   const handleJoinRoom = async () => {
     setLoading(true);
     await joinRoom(id)
+      .then(() => {
+        toast({
+          title: "Success!",
+          description: "Room joined successfully.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
       .catch((error: Error) => {
         logError(error);
         toast({
           title: "Error!",
-          description: "An error occurred while joining the room.",
+          description: error.message,
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })
@@ -63,11 +78,18 @@ const RoomCard = ({
   const handleLeaveRoom = async () => {
     setLoading(true);
     await leaveRoom(id)
+      .then(() => {
+        toast({
+          title: "Success!",
+          description: "Room left successfully.",
+          action: <ToastAction altText="Close">Close</ToastAction>,
+        });
+      })
       .catch((error: Error) => {
         logError(error);
         toast({
           title: "Error!",
-          description: "An error occurred while leaving the room.",
+          description: error.message,
           action: <ToastAction altText="Close">Close</ToastAction>,
         });
       })
@@ -92,7 +114,7 @@ const RoomCard = ({
       <div className={cn(styles["second-row"], "subtitle-2")}>
         <p className="subtitle-2">{createdBy?.name}</p>
         <time className="caption">
-          {formatDate(createdAt, DatePattern.DateTime)}
+          {formatDate(createdAt, DatePattern.WrittenDateTime)}
         </time>
       </div>
 
@@ -102,6 +124,7 @@ const RoomCard = ({
             Join
           </button>
         )}
+        {joined && <Link href={`/lobby/rooms/${id}`}>Enter room</Link>}
         {joined && !isOwner && (
           <button disabled={loading} onClick={handleLeaveRoom}>
             Leave
