@@ -52,6 +52,16 @@ export const roomRouter = createTRPCRouter({
       return room;
     }),
 
+  getRoomMembers: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const members = await ctx.db.room.findUnique({
+        where: { id: input.id },
+        select: { members: true },
+      });
+      return members?.members;
+    }),
+
   getJoinedRooms: protectedProcedure.query(async ({ ctx }) => {
     const rooms = await ctx.db.room.findMany({
       where: { members: { some: { id: ctx.session.user.id } } },

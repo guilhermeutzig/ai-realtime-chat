@@ -18,7 +18,9 @@ const Lobby = async () => {
 
   return (
     <>
-      <ProfileMenu session={session} />
+      <div className="absolute left-0 top-0 flex w-full justify-end p-4">
+        <ProfileMenu session={session} />
+      </div>
       <main className={styles.main}>
         <div className={styles.container}>
           <Logo />

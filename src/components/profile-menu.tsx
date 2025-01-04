@@ -24,7 +24,7 @@ function ProfileMenu({ session }: Props) {
   if (!session?.user) return;
 
   return (
-    <div className="absolute left-0 top-0 flex w-full justify-end p-4">
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -78,7 +78,7 @@ function ProfileMenu({ session }: Props) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </div>
+    </>
   );
 }
 

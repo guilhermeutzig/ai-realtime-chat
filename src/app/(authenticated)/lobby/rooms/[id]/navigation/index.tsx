@@ -1,8 +1,6 @@
-"use client";
-
 import { type ExtendedRoom } from "@/types";
 import styles from "./index.module.css";
-import { ArrowLeftCircle, Hexagon, Users } from "lucide-react";
+import { ArrowLeftCircle, Hexagon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   TooltipContent,
@@ -13,6 +11,8 @@ import { Tooltip } from "@/components/ui/tooltip";
 import ProfileMenu from "@/components/profile-menu";
 import { type Session } from "next-auth";
 import Link from "next/link";
+import Members from "./members";
+import { getRoomMembers } from "../actions";
 
 type Props = {
   room: ExtendedRoom;
@@ -21,6 +21,8 @@ type Props = {
 };
 
 const Navigation = ({ room, otherRooms, session }: Props) => {
+  const roomMembersPromise = getRoomMembers(room.id);
+
   return (
     <nav className={styles.nav}>
       <div className={styles.navLeft}>
@@ -50,7 +52,7 @@ const Navigation = ({ room, otherRooms, session }: Props) => {
         </div>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <Button className="flex w-max items-center gap-2 rounded-full p-2">
                 <Link href="/lobby">
                   <ArrowLeftCircle />
@@ -75,17 +77,10 @@ const Navigation = ({ room, otherRooms, session }: Props) => {
           <div className={styles.chat}>
             <h1>Chat</h1>
           </div>
-          <div className={styles.members}>
-            <header className={styles.membersHeader}>
-              <Users />
-              <h1 className="section-title-2 font-normal text-white">
-                MEMBERS ({room?.members?.length ?? 1})
-              </h1>
-            </header>
-            <div>
-              <p>Members</p>
-            </div>
-          </div>
+          <Members
+            membersPromise={roomMembersPromise}
+            userId={session?.user.id ?? ""}
+          />
         </div>
       </div>
     </nav>
