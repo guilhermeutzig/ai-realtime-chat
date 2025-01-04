@@ -1,4 +1,4 @@
-import { type User, type Room } from "@prisma/client";
+import { type User, type Room, type RoomMessage } from "@prisma/client";
 
 export interface ExtendedRoom extends Room {
   createdBy?: User;
@@ -6,4 +6,8 @@ export interface ExtendedRoom extends Room {
   members?: User[];
   membersCount?: number;
   joined?: boolean;
+}
+
+export interface ExtendedRoomMessage extends RoomMessage {
+  user?: User;
 }

@@ -1,9 +1,10 @@
 "use server";
 
 import { api } from "@/trpc/server";
-import { formatRoom, formatRoomMembers } from "./utils";
+import { formatRoom, formatRoomMembers, formatRoomMessages } from "./utils";
 import { type Room } from "@prisma/client";
 import { formatRooms } from "@/app/(authenticated)/lobby/utils";
+import { type ExtendedRoomMessage } from "@/types";
 
 export const getRoom = async (id: string) => {
   const room = await api.room.getRoom({ id });
@@ -18,4 +19,20 @@ export const getRoomMembers = async (id: string) => {
 export const getJoinedRooms = async () => {
   const rooms = await api.room.getJoinedRooms();
   return formatRooms(rooms as Room[]);
+};
+
+export const getRoomMessages = async (id: string) => {
+  const messages = await api.room.getRoomMessages({ id });
+  return formatRoomMessages(messages as ExtendedRoomMessage[]);
+};
+
+export const sendMessage = async (id: string, message: string) => {
+  if (!id || !message) return { error: "All fields are required" };
+
+  const newMessage = await api.room.sendMessage({
+    id,
+    message,
+  });
+
+  return newMessage;
 };

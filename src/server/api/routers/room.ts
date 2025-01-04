@@ -62,6 +62,22 @@ export const roomRouter = createTRPCRouter({
       return members?.members;
     }),
 
+  getRoomMessages: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const messages = await ctx.db.roomMessage.findMany({
+        where: { roomId: input.id },
+        select: {
+          id: true,
+          message: true,
+          createdAt: true,
+          user: { select: { id: true, name: true, image: true } },
+        },
+        orderBy: { createdAt: "asc" },
+      });
+      return messages;
+    }),
+
   getJoinedRooms: protectedProcedure.query(async ({ ctx }) => {
     const rooms = await ctx.db.room.findMany({
       where: { members: { some: { id: ctx.session.user.id } } },
@@ -69,6 +85,27 @@ export const roomRouter = createTRPCRouter({
     });
     return rooms;
   }),
+
+  sendMessage: protectedProcedure
+    .input(z.object({ id: z.string(), message: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const message = await ctx.db.roomMessage.create({
+        data: {
+          roomId: input.id,
+          userId: ctx.session.user.id,
+          message: input.message,
+        },
+        select: {
+          id: true,
+          message: true,
+          createdAt: true,
+          user: { select: { id: true, name: true, image: true } },
+        },
+      });
+
+      await pusherServer.trigger(`room-${input.id}`, "room:message", message);
+      return message;
+    }),
 
   createRoom: protectedProcedure
     .input(

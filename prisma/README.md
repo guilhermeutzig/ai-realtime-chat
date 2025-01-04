@@ -7,6 +7,7 @@ Migrations in Prisma are a way to manage and evolve your database schema over ti
 2. **Generate Migration**: When you make changes to your `schema.prisma` file (like adding a new model or field, changing a field, or deleting something), you need to migrate your database to reflect these changes. You do this by running the command:
 
 ```
+npx prisma generate
 npx prisma migrate dev --name descriptive_migration_name
 ```
 

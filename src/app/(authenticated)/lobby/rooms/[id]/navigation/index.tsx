@@ -11,8 +11,9 @@ import { Tooltip } from "@/components/ui/tooltip";
 import ProfileMenu from "@/components/profile-menu";
 import { type Session } from "next-auth";
 import Link from "next/link";
-import Members from "./members";
-import { getRoomMembers } from "../actions";
+import Members from "../members";
+import { getRoomMembers, getRoomMessages } from "../actions";
+import Chat from "../chat";
 
 type Props = {
   room: ExtendedRoom;
@@ -20,8 +21,9 @@ type Props = {
   session: Session | null;
 };
 
-const Navigation = ({ room, otherRooms, session }: Props) => {
+const Navigation = async ({ room, otherRooms, session }: Props) => {
   const roomMembersPromise = getRoomMembers(room.id);
+  const roomMessages = await getRoomMessages(room.id);
 
   return (
     <nav className={styles.nav}>
@@ -74,9 +76,7 @@ const Navigation = ({ room, otherRooms, session }: Props) => {
           <ProfileMenu session={session} />
         </div>
         <div className={styles.body}>
-          <div className={styles.chat}>
-            <h1>Chat</h1>
-          </div>
+          <Chat roomMessages={roomMessages} roomId={room.id} />
           <Members
             membersPromise={roomMembersPromise}
             userId={session?.user.id ?? ""}

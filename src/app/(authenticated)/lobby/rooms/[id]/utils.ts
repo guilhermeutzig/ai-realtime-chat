@@ -1,4 +1,4 @@
-import { type ExtendedRoom } from "@/types";
+import { type ExtendedRoomMessage, type ExtendedRoom } from "@/types";
 import { type User } from "@prisma/client";
 
 export const formatRoom = (room: ExtendedRoom): ExtendedRoom => {
@@ -23,5 +23,19 @@ export const formatRoomMembers = (members: User[]): User[] => {
     email: member.email,
     emailVerified: member.emailVerified,
     image: member.image,
+  }));
+};
+
+export const formatRoomMessages = (
+  messages: ExtendedRoomMessage[],
+): ExtendedRoomMessage[] => {
+  return messages.map((message) => ({
+    id: message.id,
+    message: message.message,
+    createdAt: message.createdAt,
+    updatedAt: message.updatedAt,
+    roomId: message.roomId,
+    userId: message.userId,
+    user: message.user,
   }));
 };
