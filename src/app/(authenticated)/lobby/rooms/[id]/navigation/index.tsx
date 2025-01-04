@@ -2,7 +2,7 @@
 
 import { type ExtendedRoom } from "@/types";
 import styles from "./index.module.css";
-import { ArrowLeftCircle, Hexagon } from "lucide-react";
+import { ArrowLeftCircle, Hexagon, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   TooltipContent,
@@ -71,8 +71,21 @@ const Navigation = ({ room, otherRooms, session }: Props) => {
           </div>
           <ProfileMenu session={session} />
         </div>
-        <div className="p-4 text-white">
-          <h1>Body</h1>
+        <div className={styles.body}>
+          <div className={styles.chat}>
+            <h1>Chat</h1>
+          </div>
+          <div className={styles.members}>
+            <header className={styles.membersHeader}>
+              <Users />
+              <h1 className="section-title-2 font-normal text-white">
+                MEMBERS ({room?.members?.length ?? 1})
+              </h1>
+            </header>
+            <div>
+              <p>Members</p>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

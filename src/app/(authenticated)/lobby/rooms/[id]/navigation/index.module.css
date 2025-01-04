@@ -60,3 +60,28 @@
   fill: var(--alternate);
   stroke: none;
 }
+
+.body {
+  display: grid;
+  grid-template-columns: auto 284px;
+  gap: var(--spacing-6);
+  padding: var(--spacing-4) var(--spacing-6);
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.members header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.members header svg {
+  color: var(--primary);
+  width: 24px;
+  height: 24px;
+}
