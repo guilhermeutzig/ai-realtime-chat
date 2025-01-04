@@ -10,6 +10,7 @@ import { formatRooms } from "../utils";
 import { pusherClient } from "@/lib/pusher";
 import { Button } from "@/components/ui/button";
 import styles from "./index.module.css";
+import CreateRoom from "./create-room";
 
 type Props = {
   myRooms: ExtendedRoom[];
@@ -129,7 +130,7 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
         >
           Public rooms
         </Button>
-        {/* <CreateRoom /> */}
+        <CreateRoom />
         {/* <Filters onSearch={searchRoomCallback} /> */}
       </div>
       <List

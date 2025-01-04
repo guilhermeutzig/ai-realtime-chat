@@ -55,7 +55,7 @@ const CreateRoom = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" className="max-w-max">
+        <Button variant="default" className="w-full p-1">
           Create Room
         </Button>
       </DialogTrigger>
@@ -95,7 +95,11 @@ const CreateRoom = () => {
               className="col-span-3"
             />
           </div>
-          <Button type="submit" disabled={loading}>
+          <Button
+            className="mb-0 ml-auto mr-0 mt-0 w-max p-2"
+            type="submit"
+            disabled={loading}
+          >
             Save changes
           </Button>
         </form>
