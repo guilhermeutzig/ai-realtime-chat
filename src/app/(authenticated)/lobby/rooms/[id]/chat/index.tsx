@@ -32,6 +32,16 @@ const Chat = ({ roomMessages: roomMessagesProp, roomId }: Props) => {
       setRoomMessages((prev) => [...prev, message]);
     };
 
+    pusherClient.connection.bind(
+      "state_change",
+      (states: { current: string }) => {
+        console.log("Pusher connection status:", states.current);
+      },
+    );
+    pusherClient.connection.bind("error", (error: Error) => {
+      console.error("Pusher connection error:", error);
+    });
+
     const channel = pusherClient.subscribe(`room-${roomId}`);
     channel.bind("room:message", roomMessageCallback);
 

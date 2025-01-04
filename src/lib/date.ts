@@ -12,9 +12,9 @@ dayjs.extend(isToday);
 export enum DatePattern {
   WrittenDateTime = "MMMM D, YYYY h:mm A",
   WrittenDate = "MMMM D, YYYY",
-  DateTime = "YYYY-MM-DD HH:mm:ss",
+  DateTime = "YYYY-MM-DD HH:mm",
   Date = "YYYY-MM-DD",
-  Time = "HH:mm:ss",
+  Time = "HH:mm",
 }
 
 export const formatDate = (
