@@ -1,4 +1,16 @@
-# AI Real-time Chat
+# AI Real-time Chat (Discontinued)
+
+### Project Status
+
+This project has been discontinued due to technical and infrastructure limitations encountered during development:
+
+- The Pusher service, while powerful for real-time communication, proved cost-prohibitive for this project's scope. Its free tier limitations were too restrictive for meaningful development.
+- Alternative solutions were explored:
+  - Socket.io would have been ideal but lacks compatibility with Vercel hosting
+  - A Heroku + Socket.io combination was considered but the removal of Heroku's free tier made this unfeasible
+  - Attempts to implement tRPC Sockets faced significant technical challenges that would have required substantial additional development time
+
+The learnings from this project have been valuable and may inform future iterations with different technical approaches.
 
 ### Stack
 
