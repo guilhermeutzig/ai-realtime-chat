@@ -25,6 +25,7 @@ const Chat = ({ roomMessages: roomMessagesProp, roomId }: Props) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const chatMaxHeight = wrapperRef?.current?.clientHeight ?? 400;
 
   useEffect(() => {
@@ -50,6 +51,10 @@ const Chat = ({ roomMessages: roomMessagesProp, roomId }: Props) => {
       channel.unbind("room:message", roomMessageCallback);
     };
   }, []);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current?.scrollHeight });
+  }, [roomMessages]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,6 +109,7 @@ const Chat = ({ roomMessages: roomMessagesProp, roomId }: Props) => {
         <>
           {Object.entries(groupedMessages).map(([dateKey, messages]) => (
             <div
+              ref={scrollRef}
               className={cn(
                 "relative flex flex-col gap-4 overflow-y-auto",
                 `max-h-[${chatMaxHeight}px]`,
