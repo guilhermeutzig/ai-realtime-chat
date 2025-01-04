@@ -11,6 +11,7 @@ dayjs.extend(isToday);
 
 export enum DatePattern {
   WrittenDateTime = "MMMM D, YYYY h:mm A",
+  WrittenDate = "MMMM D, YYYY",
   DateTime = "YYYY-MM-DD HH:mm:ss",
   Date = "YYYY-MM-DD",
   Time = "HH:mm:ss",

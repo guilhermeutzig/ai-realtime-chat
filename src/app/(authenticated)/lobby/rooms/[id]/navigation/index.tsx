@@ -65,7 +65,7 @@ const Navigation = async ({ room, otherRooms, session }: Props) => {
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div>
+      <div className={styles.rightNav}>
         <div className={styles.navTop}>
           <div>
             <p className="headline-6 m-0 text-white">{room.name}</p>
