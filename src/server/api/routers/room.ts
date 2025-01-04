@@ -75,6 +75,9 @@ export const roomRouter = createTRPCRouter({
         select: roomSelectFields,
       });
 
+      console.log(room);
+      console.log(pusherServer);
+
       await pusherServer.trigger("rooms", "room:created", room);
       return newRoom;
     }),

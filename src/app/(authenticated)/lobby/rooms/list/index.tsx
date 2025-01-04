@@ -3,6 +3,7 @@
 import RoomCard from "../room-card";
 import { type ExtendedRoom } from "@/types";
 import styles from "./index.module.css";
+import { TriangleAlert } from "lucide-react";
 
 type Props = {
   rooms: ExtendedRoom[];
@@ -10,6 +11,15 @@ type Props = {
 };
 
 const List = ({ rooms, userId }: Props) => {
+  if (rooms?.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <TriangleAlert className={styles.emptyIcon} />
+        <p>No rooms found</p>
+      </div>
+    );
+  }
+
   return (
     <ul className={styles.list}>
       {rooms?.map((room) => (

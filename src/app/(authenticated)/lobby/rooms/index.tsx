@@ -25,6 +25,7 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
 
   useEffect(() => {
     const roomCreatedCallback = (room: ExtendedRoom) => {
+      console.log("roomCreatedCallback");
       const isCreator = room.createdBy?.id === session?.user?.id;
       const setNewRoom = isCreator ? setMyRooms : setRooms;
       const formattedRoom = formatRooms([room]);
@@ -80,6 +81,16 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
       });
     };
 
+    pusherClient.connection.bind(
+      "state_change",
+      (states: { current: string }) => {
+        console.log("Pusher connection status:", states.current);
+      },
+    );
+    pusherClient.connection.bind("error", (error: Error) => {
+      console.error("Pusher connection error:", error);
+    });
+
     const channel = pusherClient.subscribe("rooms");
     channel.bind("room:created", roomCreatedCallback);
     channel.bind("room:deleted", roomDeletedCallback);
@@ -130,7 +141,7 @@ const Rooms = ({ myRooms: myRoomsProp, rooms: roomsProp, session }: Props) => {
         >
           Public rooms
         </Button>
-        <CreateRoom />
+        {selected === "my" && <CreateRoom />}
         {/* <Filters onSearch={searchRoomCallback} /> */}
       </div>
       <List

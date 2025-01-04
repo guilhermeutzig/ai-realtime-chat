@@ -88,6 +88,7 @@ const RoomCard = ({
           {membersCount}/{maxMembers}
         </span>
       </div>
+      <p>{description}</p>
       <div className={cn(styles["second-row"], "subtitle-2")}>
         <p className="subtitle-2">{createdBy?.name}</p>
         <time className="caption">
@@ -95,20 +96,23 @@ const RoomCard = ({
         </time>
       </div>
 
-      {/* Just for the sake of ESLint passing, TBD */}
-      <button hidden onClick={handleDeleteRoom}>
-        Delete
-        {description}
-        {isOwner}
-        {joined}
-        {loading}
-      </button>
-      <button hidden onClick={handleJoinRoom}>
-        Join
-      </button>
-      <button hidden onClick={handleLeaveRoom}>
-        Leave
-      </button>
+      <div className={styles.buttons}>
+        {!joined && (
+          <button disabled={loading} onClick={handleJoinRoom}>
+            Join
+          </button>
+        )}
+        {joined && !isOwner && (
+          <button disabled={loading} onClick={handleLeaveRoom}>
+            Leave
+          </button>
+        )}
+        {isOwner && (
+          <button disabled={loading} onClick={handleDeleteRoom}>
+            Delete
+          </button>
+        )}
+      </div>
     </div>
   );
 };

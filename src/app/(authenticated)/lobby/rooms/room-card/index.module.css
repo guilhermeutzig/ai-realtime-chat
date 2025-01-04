@@ -49,3 +49,31 @@
   color: var(--light);
   text-align: right;
 }
+
+.buttons {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.buttons button {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--light);
+  background: transparent;
+  color: var(--light);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buttons button:hover {
+  background: var(--light);
+  color: var(--secondary);
+}
+
+.buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
